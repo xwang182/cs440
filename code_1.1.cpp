@@ -372,7 +372,102 @@ int main () {
 
 
     // A*
-    int height=alllines;
+ //    int height=alllines;
+ //    int width=eachlines;
+	// priority_queue<node> greedy;
+	// map[startX][startY].prevX=startX;
+	// map[startX][startY].prevY=startY;
+	// greedy.push(map[startX][startY]);
+	// map[startX][startY].inlist=1;
+	// node smallest;
+	// for(;;){
+	// 	smallest=greedy.top();
+	// 	currentX=smallest.selfX;
+	// 	currentY=smallest.selfY;
+
+	// 	greedy.pop();
+	// 	if(smallest.selfX==endX  && smallest.selfY==endY ){
+	// 		break;
+	// 	}
+		
+
+ //    if(currentX+1<height-1){
+	//      if( map[currentX+1][currentY].state!='%'   && map[currentX+1][currentY].inlist==0  ){
+	//      	map[currentX+1][currentY].inlist=1;
+	//      	map[currentX+1][currentY].prevX=currentX;
+	//      	map[currentX+1][currentY].prevY=currentY;
+	//      	map[currentX+1][currentY].cost=map[currentX][currentY].cost+1;
+	// 		greedy.push(map[currentX+1][currentY]);
+	// 		}		
+	// 	}
+
+	//  if(currentY+1<width-1){
+	//      if( map[currentX][currentY+1].state!='%'   && map[currentX][currentY+1].inlist==0  ){
+	//      	map[currentX][currentY+1].inlist=1;
+	//      	map[currentX][currentY+1].prevX=currentX;
+	//      	map[currentX][currentY+1].prevY=currentY;
+	//      	map[currentX][currentY+1].cost=map[currentX][currentY].cost+1;
+	// 		greedy.push(map[currentX][currentY+1]);
+	// 		}		
+	// 	}	
+
+	// 	 if(currentX-1>0){
+	//      if( map[currentX-1][currentY].state!='%'   && map[currentX-1][currentY].inlist==0  ){
+	//      	map[currentX-1][currentY].inlist=1;
+	//      	map[currentX-1][currentY].prevX=currentX;
+	//      	map[currentX-1][currentY].prevY=currentY;
+	//      	map[currentX-1][currentY].cost=map[currentX][currentY].cost+1;
+	// 		greedy.push(map[currentX-1][currentY]);
+	// 		}		
+	// 	}	
+	
+	// 	 if(currentY-1>0){
+	//      if( map[currentX][currentY-1].state!='%'   && map[currentX][currentY-1].inlist==0  ){
+	//      	map[currentX][currentY-1].inlist=1;
+	//      	map[currentX][currentY-1].prevX=currentX;
+	//      	map[currentX][currentY-1].prevY=currentY;
+	//      	map[currentX][currentY-1].cost=map[currentX][currentY].cost+1;
+	// 		greedy.push(map[currentX][currentY-1]);
+	// 		}		
+	// 	}	
+	
+		
+
+
+	// }
+
+
+
+	// node temp=map[endX][endY];
+	// for(;;){
+	// 	if(temp.selfX==startX && temp.selfY==startY){
+	// 		break;
+	// 	}
+	// 	temp.state='.';
+	// 	map[temp.selfX][temp.selfY]=temp;
+
+	// 	temp=map[temp.prevX][temp.prevY];
+	// }
+
+	// for(int i=0;i<alllines;i++){
+	// 	for(int k=0;k<eachlines;k++){
+	// 		cout << map[i][k].state;
+	// 	}
+ //    	cout<<endl;
+	// }
+
+
+
+
+
+
+
+
+
+
+    //1.2 A* with
+    // forward movement has cost 2 and any turn has cost 1;
+	int height=alllines;
     int width=eachlines;
 	priority_queue<node> greedy;
 	map[startX][startY].prevX=startX;
@@ -380,10 +475,32 @@ int main () {
 	greedy.push(map[startX][startY]);
 	map[startX][startY].inlist=1;
 	node smallest;
+	int lastX=startX;
+	int lastY=startY-1;
+	int littleCost=0;
 	for(;;){
 		smallest=greedy.top();
 		currentX=smallest.selfX;
 		currentY=smallest.selfY;
+		if(currentX!=startX || currentY!=startY){
+			lastX=smallest.prevX;
+			lastY=smallest.prevY;
+		}
+		
+		if(currentX==lastX  &&  currentY>lastY){
+			littleCost=2;
+		}
+		else if(currentX==lastX  &&  currentY<lastY){
+			littleCost=4;
+		}
+		else if(currentX>lastX  &&  currentY==lastY ){
+			littleCost=1;
+		}
+		else if(currentX<lastX  &&  currentY==lastY){
+			littleCost=3;
+		}
+
+
 
 		greedy.pop();
 		if(smallest.selfX==endX  && smallest.selfY==endY ){
@@ -391,42 +508,60 @@ int main () {
 		}
 		
 
+		//down
     if(currentX+1<height-1){
 	     if( map[currentX+1][currentY].state!='%'   && map[currentX+1][currentY].inlist==0  ){
 	     	map[currentX+1][currentY].inlist=1;
 	     	map[currentX+1][currentY].prevX=currentX;
 	     	map[currentX+1][currentY].prevY=currentY;
-	     	map[currentX+1][currentY].cost=map[currentX][currentY].cost+1;
+	     	map[currentX+1][currentY].cost=map[currentX][currentY].cost+3;
+	     	if(littleCost==1){
+	     		// map[currentX][currentY-1].cost = map[currentX][currentY-1].cost-1;
+	     	}
 			greedy.push(map[currentX+1][currentY]);
 			}		
 		}
 
+		//right
 	 if(currentY+1<width-1){
 	     if( map[currentX][currentY+1].state!='%'   && map[currentX][currentY+1].inlist==0  ){
 	     	map[currentX][currentY+1].inlist=1;
 	     	map[currentX][currentY+1].prevX=currentX;
 	     	map[currentX][currentY+1].prevY=currentY;
-	     	map[currentX][currentY+1].cost=map[currentX][currentY].cost+1;
+	     	map[currentX][currentY+1].cost=map[currentX][currentY].cost+3;
+	     	if(littleCost==2){
+	     		// map[currentX][currentY-1].cost = map[currentX][currentY-1].cost-1;
+	     	}
 			greedy.push(map[currentX][currentY+1]);
 			}		
 		}	
 
+
+		//up
 		 if(currentX-1>0){
 	     if( map[currentX-1][currentY].state!='%'   && map[currentX-1][currentY].inlist==0  ){
 	     	map[currentX-1][currentY].inlist=1;
 	     	map[currentX-1][currentY].prevX=currentX;
 	     	map[currentX-1][currentY].prevY=currentY;
-	     	map[currentX-1][currentY].cost=map[currentX][currentY].cost+1;
+	     	map[currentX-1][currentY].cost=map[currentX][currentY].cost+3;
+	     	if(littleCost==3){
+	     		// map[currentX][currentY-1].cost = map[currentX][currentY-1].cost-1;
+	     	}
 			greedy.push(map[currentX-1][currentY]);
 			}		
 		}	
 	
+
+		//left
 		 if(currentY-1>0){
 	     if( map[currentX][currentY-1].state!='%'   && map[currentX][currentY-1].inlist==0  ){
 	     	map[currentX][currentY-1].inlist=1;
 	     	map[currentX][currentY-1].prevX=currentX;
 	     	map[currentX][currentY-1].prevY=currentY;
-	     	map[currentX][currentY-1].cost=map[currentX][currentY].cost+1;
+	     	map[currentX][currentY-1].cost=map[currentX][currentY].cost+3;
+	     	if(littleCost==4){
+	     		// map[currentX][currentY-1].cost = map[currentX][currentY-1].cost-1;
+	     	}
 			greedy.push(map[currentX][currentY-1]);
 			}		
 		}	
